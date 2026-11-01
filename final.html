@@ -1,495 +1,350 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>ALI — The Final Chapter</title>
+    <meta name="theme-color" content="#080617">
+    <meta name="description" content="One final little surprise, made for Ali.">
+    <title>One Last Surprise | For Ali</title>
 
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="responsive.css">
+
+    <style>
+        .final-page [hidden] {
+            display: none !important;
+        }
+
+        .final-page .final-main {
+            width: min(100% - 36px, 1050px);
+            margin: 0 auto;
+            min-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 80px 0;
+        }
+
+        .final-page .final-hero {
+            max-width: 800px;
+            margin: 0 auto 45px;
+        }
+
+        .final-page .final-eyebrow {
+            color: #c8a9ff;
+            font-size: 12px;
+            letter-spacing: .28em;
+            text-transform: uppercase;
+        }
+
+        .final-page .final-main h1 {
+            font-size: clamp(42px, 7vw, 82px);
+            line-height: 1.1;
+            margin: 25px 0;
+        }
+
+        .final-page .final-main h1 span {
+            display: block;
+            color: #c7a5ff;
+        }
+
+        .final-page .final-main p {
+            max-width: 650px;
+            margin: 15px auto;
+            line-height: 1.9;
+            color: #d4cde7;
+        }
+
+        .final-page .final-reveal-button,
+        .final-page .final-replay-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 16px 30px;
+            margin-top: 25px;
+            border: 1px solid rgba(207, 174, 255, .55);
+            border-radius: 50px;
+            background: linear-gradient(135deg, #7851c9, #4c318b);
+            color: #fff;
+            text-decoration: none;
+            font: inherit;
+            font-weight: 600;
+            letter-spacing: .04em;
+            cursor: pointer;
+            transition: transform .3s ease, box-shadow .3s ease;
+        }
+
+        .final-page .final-reveal-button:hover,
+        .final-page .final-replay-button:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 35px rgba(135, 89, 220, .35);
+        }
+
+        .final-page .final-reveal-card {
+            width: min(100%, 760px);
+            margin: 35px auto;
+            padding: clamp(25px, 5vw, 55px);
+            border: 1px solid rgba(202, 169, 255, .3);
+            border-radius: 24px;
+            background: rgba(23, 15, 48, .8);
+            box-shadow: 0 25px 70px rgba(0, 0, 0, .3);
+            animation: finalRevealIn .8s ease both;
+        }
+
+        .final-page .final-reveal-card h2 {
+            font-size: clamp(30px, 5vw, 48px);
+            margin: 18px 0;
+            color: #e8d7ff;
+        }
+
+        .final-page .final-reveal-card p {
+            color: #e2d9f2;
+        }
+
+        .final-page .final-big-heart {
+            display: block;
+            font-size: 65px;
+            margin: 20px 0;
+            color: #e7b9ff;
+            animation: finalHeartBeat 2s ease-in-out infinite;
+        }
+
+        .final-page .final-signature {
+            margin-top: 30px;
+            font-family: Georgia, serif;
+            font-size: 25px;
+            font-style: italic;
+            color: #d8baff;
+        }
+
+        .final-page .final-stars {
+            font-size: 24px;
+            letter-spacing: 15px;
+            color: #d6b5ff;
+            margin: 25px 0;
+        }
+
+        .final-page .replay-section {
+            margin-top: 65px;
+            padding: 35px 20px;
+            border-top: 1px solid rgba(255, 255, 255, .12);
+        }
+
+        .final-page .replay-section p {
+            color: #b9aecf;
+        }
+
+        .final-page .final-footer {
+            padding: 30px 15px;
+            text-align: center;
+            color: #a99bbf;
+        }
+
+        @keyframes finalRevealIn {
+            from {
+                opacity: 0;
+                transform: translateY(35px) scale(.96);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes finalHeartBeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.12); }
+        }
+
+        @media (max-width: 600px) {
+            .final-page .final-main {
+                padding: 55px 0;
+            }
+
+            .final-page .final-reveal-button,
+            .final-page .final-replay-button {
+                padding: 14px 22px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .final-page *,
+            .final-page *::before,
+            .final-page *::after {
+                animation-duration: .01ms !important;
+                transition-duration: .01ms !important;
+            }
+        }
+    </style>
 </head>
 
 <body class="final-page">
 
-    <!-- =====================================================
-         CINEMATIC BACKGROUND
-    ====================================================== -->
+    <!-- BACKGROUND -->
+    <div class="page-background" aria-hidden="true"></div>
+    <div class="background-overlay" aria-hidden="true"></div>
+    <div class="stars stars-one" aria-hidden="true"></div>
+    <div class="stars stars-two" aria-hidden="true"></div>
 
-    <div class="cinematic-background">
-
-        <div class="stars stars-one"></div>
-        <div class="stars stars-two"></div>
-        <div class="stars stars-three"></div>
-
-        <div class="nebula nebula-one"></div>
-        <div class="nebula nebula-two"></div>
-
-        <div class="floating-particles">
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-
-    </div>
-
-
-    <!-- =====================================================
-         VIGNETTE
-    ====================================================== -->
-
-    <div class="cinematic-vignette"></div>
-
-
-    <!-- =====================================================
-         PAGE HEADER
-    ====================================================== -->
-
-    <header class="page-header final-header">
-
-        <div class="header-label">
-            A LITTLE WORLD FOR ALI
-        </div>
-
-        <div class="header-date">
-            25 · OCTOBER
-        </div>
-
+    <!-- HEADER -->
+    <header class="page-header">
+        <a href="index.html" class="header-logo">A <span>♡</span></a>
+        <span class="header-caption">ONE LAST LITTLE SURPRISE</span>
+        <span class="page-counter">07 / 07</span>
     </header>
 
-
-    <!-- =====================================================
-         FINAL MAIN
-    ====================================================== -->
-
+    <!-- MAIN -->
     <main class="final-main">
 
-        <!-- =================================================
-             PAGE INTRO
-        ================================================== -->
+        <section class="final-hero">
 
-        <section class="final-intro">
+            <span class="final-eyebrow">
+                YOU MADE IT TO THE END
+            </span>
 
-            <div class="chapter-number">
-                07 / 07
-            </div>
-
-            <p class="chapter-label">
-                THE FINAL CHAPTER
-            </p>
-
-            <h1 class="final-title">
-                And now
+            <h1>
+                One last thing,
+                <span>my favorite kitty.</span>
             </h1>
 
-            <p class="final-subtitle">
-                one last thing.
-            </p>
-
-            <div class="final-divider"></div>
-
-        </section>
-
-
-        <!-- =================================================
-             OPENING MESSAGE
-        ================================================== -->
-
-        <section class="final-opening">
-
-            <div class="final-card">
-
-                <p class="small-label">
-                    IF YOU MADE IT THIS FAR
-                </p>
-
-                <h2>
-                    You found the end.
-                </h2>
-
-                <p>
-                    Seven little chapters.
-                    <br><br>
-
-                    One tiny world.
-                    <br><br>
-
-                    And a whole lot of thoughts
-                    that were waiting to become words.
-                </p>
-
-                <p>
-                    Maybe this website is simple compared to
-                    everything that exists in the world...
-                    <br><br>
-
-                    but every page was made with one person in mind.
-                </p>
-
-                <div class="final-name">
-                    ALI
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =================================================
-             BIRTHDAY MESSAGE
-        ================================================== -->
-
-        <section class="birthday-final-message">
-
-            <p class="small-label">
-                BEFORE YOU LEAVE
-            </p>
-
-            <h2>
-                HAPPY BIRTHDAY, ALI
-            </h2>
-
             <p>
-                I hope this little surprise made you smile.
+                You've explored the little world,
+                read the letter, visited the memories
+                and travelled through our universe.
             </p>
 
             <p>
-                I hope somewhere between the stars,
-                the letters, the memories,
-                the distance,
-                and all the little details...
-                <br><br>
-
-                you felt how special this day is.
+                But there's one final message
+                I saved especially for you.
             </p>
 
-            <p>
-                Not because a website can make a birthday special,
-                but because sometimes the smallest effort
-                can carry the biggest meaning.
-            </p>
-
-        </section>
-
-
-        <!-- =================================================
-             FINAL SECRET
-        ================================================== -->
-
-        <section class="final-secret-section">
-
-            <p class="small-label">
-                THERE'S STILL SOMETHING LEFT
-            </p>
-
-            <h2>
-                ONE LAST SECRET
-            </h2>
-
-            <p>
-                You have reached the final page...
-                <br>
-                but the surprise isn't finished yet.
-            </p>
+            <div class="final-stars">✦ ✧ ♡ ✧ ✦</div>
 
             <button
-                id="finalReveal"
-                class="cinematic-button"
                 type="button"
-            >
-                REVEAL THE LAST MESSAGE
+                class="final-reveal-button"
+                id="finalReveal"
+                aria-controls="finalSecretMessage"
+                aria-expanded="false">
+                Open Your Final Surprise
+                <span aria-hidden="true">♡</span>
             </button>
 
-
-            <div
-                id="finalSecretMessage"
-                class="final-secret-message"
-                hidden
-            >
-
-                <div class="secret-glow"></div>
-
-                <p class="secret-label">
-                    FOR ALI
-                </p>
-
-                <h3>
-                    You are worth celebrating.
-                </h3>
-
-                <p>
-                    Today is your day.
-                    <br><br>
-
-                    So laugh a little louder.
-                    <br>
-                    Smile a little more.
-                    <br>
-                    Enjoy the little things.
-                    <br>
-                    Make another memory.
-                    <br>
-                    And never forget that you deserve
-                    beautiful moments in your life.
-                </p>
-
-                <p>
-                    Happy Birthday, Ali.
-                </p>
-
-            </div>
-
         </section>
 
+        <!-- HIDDEN FINAL MESSAGE -->
+        <section
+            class="final-reveal-card"
+            id="finalSecretMessage"
+            hidden
+            aria-live="polite">
 
-        <!-- =================================================
-             LITTLE WISH
-        ================================================== -->
+            <span class="final-eyebrow">
+                JUST FOR YOU, ALI
+            </span>
 
-        <section class="final-wish">
-
-            <div class="wish-line"></div>
-
-            <p class="small-label">
-                ONE FINAL WISH
-            </p>
-
-            <h2>
-                I hope this year is kind to you.
-            </h2>
-
-            <p>
-                I hope you get closer to the things
-                you've been dreaming about.
-            </p>
-
-            <p>
-                I hope you have more reasons to smile,
-                more moments worth remembering,
-                more peaceful nights,
-                more exciting days,
-                and more little things
-                that make you genuinely happy.
-            </p>
-
-            <p>
-                And whenever life gets busy,
-                I hope you still remember
-                the little things that made you smile.
-            </p>
-
-            <div class="wish-line"></div>
-
-        </section>
-
-
-        <!-- =================================================
-             FINAL CARD
-        ================================================== -->
-
-        <section class="final-birthday-card">
-
-            <div class="birthday-card-inner">
-
-                <p class="card-date">
-                    25 · OCTOBER
-                </p>
-
-                <div class="card-star">
-                    ✦
-                </div>
-
-                <h2>
-                    ALI
-                </h2>
-
-                <p class="card-message">
-                    A new year of your story begins here.
-                </p>
-
-                <div class="card-divider"></div>
-
-                <p>
-                    May this chapter be better
-                    than the last one.
-                </p>
-
-                <p>
-                    May your days be filled
-                    with beautiful surprises.
-                </p>
-
-                <p>
-                    And may you always have
-                    something worth smiling about.
-                </p>
-
-            </div>
-
-        </section>
-
-
-        <!-- =================================================
-             FINAL WORDS
-        ================================================== -->
-
-        <section class="final-words">
-
-            <p class="small-label">
-                THE END
-            </p>
-
-            <h2>
-                But maybe...
-            </h2>
-
-            <p>
-                this doesn't really have to be the end.
-            </p>
-
-            <p>
-                Because websites end.
-                <br>
-                Pages end.
-                <br>
-                Stories get new chapters.
-                <br>
-                And memories keep growing.
-            </p>
-
-            <p>
-                So let this little website stay here
-                as one small reminder of
-                <br><br>
-
-                <strong>
-                    25 October.
-                </strong>
-            </p>
-
-        </section>
-
-
-        <!-- =================================================
-             SIGNATURE
-        ================================================== -->
-
-        <section class="final-signature">
-
-            <div class="signature-line"></div>
-
-            <p>
-                Made especially for
-            </p>
-
-            <h2>
-                ALI
-            </h2>
-
-            <p class="signature-message">
-                with a little bit of code,
-                a lot of effort,
-                and way too much overthinking.
-            </p>
-
-            <p class="signature-name">
-                — Your slightly dramatic kitty 🐾
-            </p>
-
-            <div class="signature-line"></div>
-
-        </section>
-
-
-        <!-- =================================================
-             FINAL THANK YOU
-        ================================================== -->
-
-        <section class="final-thank-you">
-
-            <p>
-                Thank you for opening this little world.
-            </p>
-
-            <p>
-                And most importantly...
-            </p>
+            <div class="final-big-heart">♡</div>
 
             <h2>
                 Happy Birthday, Ali.
             </h2>
 
             <p>
-                ✦ 25 · 10 · 2026 ✦
+                I know this surprise arrived a little
+                later than your birthday, but I still
+                wanted you to have something made
+                with time, effort and care.
             </p>
+
+            <p>
+                Every page was another little idea
+                I wanted to turn into something real.
+                There were mistakes, fixes, late work
+                and plenty of learning along the way.
+            </p>
+
+            <p>
+                I hope this website makes you smile
+                and reminds you that even a simple
+                little gift can carry a lot of thought.
+            </p>
+
+            <p>
+                Keep chasing your dreams.
+                Keep discovering new things.
+                Take care of yourself and never
+                forget how much your happiness matters.
+            </p>
+
+            <p>
+                Here's to more beautiful days,
+                more laughter and more memories
+                waiting to be made.
+            </p>
+
+            <div class="final-stars">✦ ✧ ♡ ✧ ✦</div>
+
+            <span class="final-signature">
+                Made with love, just for you.
+            </span>
+
+            <div class="final-big-heart">🐱</div>
 
         </section>
 
-
-        <!-- =================================================
-             REPLAY
-        ================================================== -->
-
+        <!-- REPLAY -->
         <section class="replay-section">
 
             <p>
-                Want to experience it again?
+                Want to explore your little universe again?
             </p>
 
-            <a
-                href="index.html"
-                class="cinematic-button replay-button"
-            >
-                START FROM THE BEGINNING
+            <a href="index.html" class="final-replay-button">
+                <span aria-hidden="true">↺</span>
+                Replay The Surprise
             </a>
 
         </section>
 
     </main>
 
-
-    <!-- =====================================================
-         FOOTER
-    ====================================================== -->
-
+    <!-- FOOTER -->
     <footer class="final-footer">
-
-        <p>
-            A LITTLE WORLD FOR ALI
-        </p>
-
-        <p>
-            07 / 07 — THE END
-        </p>
-
+        <p>Seven little pages. One special surprise. ♡</p>
+        <p>Made for Ali — with care.</p>
     </footer>
 
-
-    <!-- =====================================================
-         SCREEN TRANSITION
-    ====================================================== -->
-
-    <div
-        id="finalTransition"
-        class="page-transition"
-    ></div>
-
-
-    <!-- =====================================================
-         SCRIPT
-    ====================================================== -->
-
     <script src="script.js"></script>
+
+    <script>
+        (function () {
+            const revealButton = document.getElementById("finalReveal");
+            const secretMessage = document.getElementById("finalSecretMessage");
+
+            if (!revealButton || !secretMessage) return;
+
+            revealButton.addEventListener("click", function () {
+                const isHidden = secretMessage.hidden;
+
+                secretMessage.hidden = !isHidden;
+                revealButton.setAttribute("aria-expanded", String(isHidden));
+
+                revealButton.innerHTML = isHidden
+                    ? Close Final Surprise <span aria-hidden="true">♡</span>
+                    : Open Your Final Surprise <span aria-hidden="true">♡</span>;
+
+                if (isHidden) {
+                    secretMessage.scrollIntoView({
+                        behavior: "smooth",
+                        block: "center"
+                    });
+                }
+            });
+        })();
+    </script>
 
 </body>
 </html>
