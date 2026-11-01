@@ -1,10 +1,13 @@
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#080617">
     <meta name="description" content="One final little surprise, made for Ali.">
+
     <title>One Last Surprise | For Ali</title>
 
     <link rel="stylesheet" href="style.css">
@@ -148,6 +151,7 @@
                 opacity: 0;
                 transform: translateY(35px) scale(.96);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0) scale(1);
@@ -155,8 +159,13 @@
         }
 
         @keyframes finalHeartBeat {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.12); }
+            0%, 100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.12);
+            }
         }
 
         @media (max-width: 600px) {
@@ -229,8 +238,10 @@
                 id="finalReveal"
                 aria-controls="finalSecretMessage"
                 aria-expanded="false">
+
                 Open Your Final Surprise
                 <span aria-hidden="true">♡</span>
+
             </button>
 
         </section>
@@ -317,24 +328,31 @@
         <p>Made for Ali — with care.</p>
     </footer>
 
-    <script src="script.js"></script>
-
+    <!-- FINAL MESSAGE BUTTON -->
     <script>
         (function () {
-            const revealButton = document.getElementById("finalReveal");
-            const secretMessage = document.getElementById("finalSecretMessage");
+            const revealButton =
+                document.getElementById("finalReveal");
+
+            const secretMessage =
+                document.getElementById("finalSecretMessage");
 
             if (!revealButton || !secretMessage) return;
 
             revealButton.addEventListener("click", function () {
+
                 const isHidden = secretMessage.hidden;
 
                 secretMessage.hidden = !isHidden;
-                revealButton.setAttribute("aria-expanded", String(isHidden));
+
+                revealButton.setAttribute(
+                    "aria-expanded",
+                    String(isHidden)
+                );
 
                 revealButton.innerHTML = isHidden
-                    ? Close Final Surprise <span aria-hidden="true">♡</span>
-                    : Open Your Final Surprise <span aria-hidden="true">♡</span>;
+                    ? 'Close Final Surprise <span aria-hidden="true">♡</span>'
+                    : 'Open Your Final Surprise <span aria-hidden="true">♡</span>';
 
                 if (isHidden) {
                     secretMessage.scrollIntoView({
@@ -342,8 +360,13 @@
                         block: "center"
                     });
                 }
+
             });
         })();
-   <script src="script.js" defer></script>
+    </script>
+
+    <!-- MAIN JAVASCRIPT — LOAD ONLY ONCE -->
+    <script src="script.js" defer></script>
+
 </body>
 </html>
