@@ -1,14 +1,12 @@
-
-/* =========================================================
-   ALI BIRTHDAY WEBSITE — MASTER SCRIPT
-   Works with all 7 HTML pages
-========================================================= */
-
 "use strict";
 
 /* =========================================================
-   01. HELPERS
+   ALI BIRTHDAY WEBSITE
+   FILE 10 — MAIN JAVASCRIPT
+   Gift • Music • Reveals • Navigation • Transitions
 ========================================================= */
+
+/* 01 — HELPERS */
 
 const $ = (selector, parent = document) =>
     parent.querySelector(selector);
@@ -16,25 +14,23 @@ const $ = (selector, parent = document) =>
 const $$ = (selector, parent = document) =>
     [...parent.querySelectorAll(selector)];
 
-const wait = ms =>
+const wait = (ms) =>
     new Promise(resolve => setTimeout(resolve, ms));
 
-const prefersReducedMotion = window.matchMedia(
+const reducedMotion = window.matchMedia(
     "(prefers-reduced-motion: reduce)"
 ).matches;
 
-let navigationStarted = false;
+let navigating = false;
 
 const currentPage = (
-    window.location.pathname.split("/").pop() || "index.html"
+    location.pathname.split("/").pop() || "index.html"
 ).toLowerCase();
 
 
-/* =========================================================
-   02. MUSIC SYSTEM
-========================================================= */
+/* 02 — MUSIC SYSTEM */
 
-function getPageMusic() {
+function getMusic() {
     if (currentPage === "birthday.html") {
         return $("#birthdayMusic") || $("#bgMusic");
     }
@@ -43,84 +39,45 @@ function getPageMusic() {
 }
 
 function prepareMusic() {
-    [$("#bgMusic"), $("#birthdayMusic")]
-        .filter(Boolean)
-        .forEach(audio => {
-            audio.loop = true;
-            audio.volume = 0.35;
-            audio.preload = "auto";
-        });
-}
+    const tracks = [
+        $("#bgMusic"),
+        $("#birthdayMusic")
+    ].filter(Boolean);
 
-function pauseOtherMusic(activeAudio) {
-    [$("#bgMusic"), $("#birthdayMusic")]
-        .filter(Boolean)
-        .forEach(audio => {
-            if (audio !== activeAudio) audio.pause();
-        });
+    tracks.forEach(audio => {
+        audio.loop = true;
+        audio.volume = 0.35;
+        audio.preload = "auto";
+    });
 }
 
 async function playMusic() {
-    const audio = getPageMusic();
+    const activeTrack = getMusic();
 
-    if (!audio) return false;
+    if (!activeTrack) return false;
 
-    pauseOtherMusic(audio);
+    [
+        $("#bgMusic"),
+        $("#birthdayMusic")
+    ].filter(Boolean).forEach(audio => {
+        if (audio !== activeTrack) {
+            audio.pause();
+        }
+    });
 
     try {
-        await audio.play();
+        await activeTrack.play();
         return true;
     } catch (error) {
-        console.info("Music could not start yet.");
+        console.info("Music will wait for another interaction.");
         return false;
     }
 }
 
 
-/* =========================================================
-   03. LOADING SCREEN
-========================================================= */
+/* 03 — REVEAL SYSTEM */
 
-function handleLoadingScreen() {
-    const loader = $(
-        "#loadingScreen, .loading-screen, .loader-screen"
-    );
-
-    if (!loader) return;
-
-    let alreadyHidden = false;
-
-    function hideLoader() {
-        if (alreadyHidden) return;
-        alreadyHidden = true;
-
-        loader.classList.add("loaded", "is-hidden");
-
-        if (loader.id === "loadingScreen") {
-            loader.style.pointerEvents = "none";
-        }
-
-        wait(prefersReducedMotion ? 0 : 800).then(() => {
-            loader.classList.add("hidden");
-            loader.setAttribute("aria-hidden", "true");
-        });
-    }
-
-    if (document.readyState === "complete") {
-        hideLoader();
-    } else {
-        window.addEventListener("load", hideLoader, {
-            once: true
-        });
-    }
-}
-
-
-/* =========================================================
-   04. REVEAL HELPERS
-========================================================= */
-
-function revealElement(element) {
+function reveal(element) {
     if (!element) return;
 
     element.hidden = false;
@@ -133,11 +90,9 @@ function revealElement(element) {
         "revealed",
         "is-visible"
     );
-
-    element.setAttribute("aria-live", "polite");
 }
 
-function hideElement(element) {
+function conceal(element) {
     if (!element) return;
 
     element.classList.remove(
@@ -145,7 +100,8 @@ function hideElement(element) {
         "show",
         "visible",
         "revealed",
-        "is-visible"
+        "is-visible",
+        "transition-in"
     );
 
     element.hidden = true;
@@ -156,141 +112,65 @@ function scrollToElement(element) {
     if (!element) return;
 
     element.scrollIntoView({
-        behavior: prefersReducedMotion ? "auto" : "smooth",
+        behavior: reducedMotion ? "auto" : "smooth",
         block: "center"
     });
 }
 
 
-/* =========================================================
-   05. GIFT OPENING — INDEX PAGE
-========================================================= */
+/* 04 — LOADING SCREEN */
 
-function setupGiftOpening() {
-    const openButton = $("#openSurprise");
+function setupLoader() {
+    const loader = $(
+        "#loadingScreen, .loading-screen, .loader-screen"
+    );
 
-    const giftStage = $("#giftStage, .gift-stage");
+    if (!loader) return;
 
-    const giftBox = $("#giftBox, .gift-box-3d, .gift-box");
+    function hideLoader() {
+        loader.classList.add(
+            "loaded",
+            "is-hidden"
+        );
 
-    const giftLid = $("#giftLid, .box-lid, .gift-lid");
+        loader.style.pointerEvents = "none";
 
-    const mysteryMessage = $(".mystery-message");
+        setTimeout(() => {
+            loader.classList.add("hidden");
+            loader.setAttribute("aria-hidden", "true");
+        }, reducedMotion ? 0 : 700);
+    }
 
-    const cinematicReveal = $("#cinematicReveal");
-
-    const continueButton = $("#continueButton");
-
-    const flash = $("#screenFlash, #flashOverlay, .flash-overlay");
-
-    if (!openButton) return;
-
-    openButton.addEventListener("click", async () => {
-        if (openButton.dataset.opened === "true") return;
-
-        openButton.dataset.opened = "true";
-        openButton.disabled = true;
-
-        await playMusic();
-
-        document.body.classList.add("gift-opening");
-
-        if (giftStage) {
-            giftStage.classList.add(
-                "opening",
-                "is-opening",
-                "opened"
-            );
-        }
-
-        if (giftBox) {
-            giftBox.classList.add(
-                "opening",
-                "is-opening",
-                "opened"
-            );
-        }
-
-        if (giftLid) {
-            giftLid.classList.add(
-                "opening",
-                "is-opening",
-                "opened"
-            );
-        }
-
-        if (mysteryMessage) {
-            mysteryMessage.classList.add("fade-out");
-        }
-
-        openButton.classList.add("button-used");
-
-        await wait(prefersReducedMotion ? 0 : 1100);
-
-        if (cinematicReveal) {
-            revealElement(cinematicReveal);
-            scrollToElement(cinematicReveal);
-        }
-
-        document.body.classList.add("cinematic-revealed");
-
-        if (flash) {
-            flash.classList.add("active");
-
-            await wait(prefersReducedMotion ? 0 : 180);
-
-            flash.classList.remove("active");
-        }
-
-        if (continueButton) {
-            continueButton.disabled = false;
-
-            continueButton.setAttribute(
-                "aria-label",
-                "Continue to the birthday page"
-            );
-        }
-    });
+    if (document.readyState === "complete") {
+        hideLoader();
+    } else {
+        window.addEventListener(
+            "load",
+            hideLoader,
+            { once: true }
+        );
+    }
 }
 
 
-/* =========================================================
-   06. CONTINUE BUTTON
-========================================================= */
-
-function setupContinueButton() {
-    const button = $("#continueButton");
-
-    if (!button) return;
-
-    button.addEventListener("click", () => {
-        transitionTo("birthday.html");
-    });
-}
-
-
-/* =========================================================
-   07. PAGE TRANSITIONS
-========================================================= */
+/* 05 — PAGE TRANSITIONS */
 
 function getTransitionOverlay() {
     if (currentPage === "birthday.html") {
-        return $("#birthdayTransition, #pageTransition, .page-transition");
+        return $("#birthdayTransition, .page-transition");
     }
 
     if (currentPage === "final.html") {
-        return $("#finalTransition, #pageTransition, .page-transition");
+        return $("#finalTransition, .page-transition");
     }
 
-    return $(
-        "#pageTransition, .page-transition, #finalTransition, #birthdayTransition"
-    );
+    return $(".page-transition");
 }
 
-async function transitionTo(destination) {
-    if (!destination || navigationStarted) return;
+async function navigateTo(destination) {
+    if (!destination || navigating) return;
 
-    navigationStarted = true;
+    navigating = true;
 
     const overlay = getTransitionOverlay();
 
@@ -300,71 +180,98 @@ async function transitionTo(destination) {
     );
 
     if (overlay) {
-        revealElement(overlay);
+        reveal(overlay);
         overlay.classList.add("transition-in");
     }
 
-    await wait(prefersReducedMotion ? 0 : 550);
+    await wait(reducedMotion ? 0 : 450);
 
-    window.location.href = destination;
+    location.href = destination;
 }
 
 
-/* =========================================================
-   08. INTERNAL PAGE LINKS
-========================================================= */
+/* 06 — GIFT OPENING */
 
-function setupInternalLinks() {
-    $$("a[href]").forEach(link => {
-        link.addEventListener("click", event => {
-            if (event.defaultPrevented) return;
-            if (event.button !== 0) return;
+function setupGiftOpening() {
+    const openButton = $("#openSurprise");
 
-            if (
-                event.ctrlKey ||
-                event.metaKey ||
-                event.shiftKey ||
-                event.altKey
-            ) return;
+    if (!openButton) return;
 
-            if (link.target && link.target !== "_self") return;
-            if (link.hasAttribute("download")) return;
+    openButton.addEventListener("click", async () => {
 
-            const href = link.getAttribute("href");
+        if (openButton.dataset.opened === "true") {
+            return;
+        }
 
-            if (!href || href.startsWith("#")) return;
+        openButton.dataset.opened = "true";
+        openButton.disabled = true;
 
-            if (/^(mailto:|tel:|javascript:)/i.test(href)) {
-                return;
-            }
+        await playMusic();
 
-            let destination;
+        document.body.classList.add("gift-opening");
 
-            try {
-                destination = new URL(href, window.location.href);
-            } catch {
-                return;
-            }
+        const giftStage = $(
+            "#giftStage, .gift-stage"
+        );
 
-            if (destination.origin !== window.location.origin) {
-                return;
-            }
+        const giftBox = $(
+            "#giftBox, .gift-box-3d, .gift-box"
+        );
 
-            if (!/\.html?$/i.test(destination.pathname)) return;
+        const giftLid = $(
+            "#giftLid, .box-lid, .gift-lid"
+        );
 
-            if (destination.href === window.location.href) return;
-
-            event.preventDefault();
-
-            transitionTo(destination.href);
+        [
+            giftStage,
+            giftBox,
+            giftLid
+        ].filter(Boolean).forEach(element => {
+            element.classList.add(
+                "opening",
+                "is-opening",
+                "opened"
+            );
         });
+
+        $(".mystery-message")?.classList.add("fade-out");
+
+        await wait(reducedMotion ? 0 : 1050);
+
+        const revealSection = $(
+            "#cinematicReveal, .cinematic-reveal"
+        );
+
+        reveal(revealSection);
+
+        document.body.classList.add(
+            "cinematic-revealed"
+        );
+
+        scrollToElement(revealSection);
+
+        const flash = $(
+            "#screenFlash, #flashOverlay, .flash-overlay"
+        );
+
+        if (flash) {
+            flash.classList.add("active");
+
+            await wait(reducedMotion ? 0 : 180);
+
+            flash.classList.remove("active");
+        }
+
+        const continueButton = $("#continueButton");
+
+        if (continueButton) {
+            continueButton.disabled = false;
+        }
     });
 }
 
 
-/* =========================================================
-   09. BIRTHDAY SECRET MESSAGE
-========================================================= */
+/* 07 — BIRTHDAY SECRET MESSAGE */
 
 function setupBirthdaySecret() {
     const button = $("#birthdaySecret");
@@ -378,18 +285,20 @@ function setupBirthdaySecret() {
     button.setAttribute("aria-expanded", "false");
 
     button.addEventListener("click", async () => {
+
         await playMusic();
 
         const isOpen =
             button.getAttribute("aria-expanded") === "true";
 
         if (isOpen) {
-            hideElement(message);
+            conceal(message);
 
             button.setAttribute("aria-expanded", "false");
             button.classList.remove("active");
+
         } else {
-            revealElement(message);
+            reveal(message);
 
             button.setAttribute("aria-expanded", "true");
             button.classList.add("active");
@@ -400,30 +309,23 @@ function setupBirthdaySecret() {
 }
 
 
-/* =========================================================
-   10. BIRTHDAY NEXT BUTTON
-========================================================= */
+/* 08 — FINAL SECRET MESSAGE */
 
-function setupBirthdayNext() {
-    const button = $("#birthdayNext");
-
-    if (!button) return;
-
-    button.addEventListener("click", () => {
-        transitionTo("letter.html");
-    });
-}
-
-
-/* =========================================================
-   11. FINAL SECRET MESSAGE
-========================================================= */
-
-function setupFinalSecret() {
+function setupFinalReveal() {
     const button = $("#finalReveal");
     const message = $("#finalSecretMessage");
 
     if (!button || !message) return;
+
+    /*
+       The newer final.html already has its own
+       reveal handler for .final-reveal-card.
+       Avoid attaching a second click handler.
+    */
+
+    if (message.classList.contains("final-reveal-card")) {
+        return;
+    }
 
     message.hidden = true;
     message.setAttribute("aria-hidden", "true");
@@ -431,18 +333,20 @@ function setupFinalSecret() {
     button.setAttribute("aria-expanded", "false");
 
     button.addEventListener("click", async () => {
+
         await playMusic();
 
         const isOpen =
             button.getAttribute("aria-expanded") === "true";
 
         if (isOpen) {
-            hideElement(message);
+            conceal(message);
 
             button.setAttribute("aria-expanded", "false");
             button.classList.remove("active");
+
         } else {
-            revealElement(message);
+            reveal(message);
 
             button.setAttribute("aria-expanded", "true");
             button.classList.add("active");
@@ -453,75 +357,153 @@ function setupFinalSecret() {
 }
 
 
-/* =========================================================
-   12. REPLAY WEBSITE
-========================================================= */
+/* 09 — MAIN PAGE BUTTONS */
 
-function setupReplay() {
-    const buttons = $$(
-        "#replayButton, .replay-button, [data-replay]"
+function setupPageButtons() {
+
+    $("#continueButton")?.addEventListener(
+        "click",
+        () => navigateTo("birthday.html")
     );
 
-    buttons.forEach(button => {
-        button.addEventListener("click", event => {
-            event.preventDefault();
-            transitionTo("index.html");
+    $("#birthdayNext")?.addEventListener(
+        "click",
+        () => navigateTo("letter.html")
+    );
+
+    $("#worldNext")?.addEventListener(
+        "click",
+        () => navigateTo("memories.html")
+    );
+
+    $("#memoriesNext")?.addEventListener(
+        "click",
+        () => navigateTo("universe.html")
+    );
+
+    $("#universeNext")?.addEventListener(
+        "click",
+        () => navigateTo("final.html")
+    );
+
+    $$("#replayButton, .replay-button, [data-replay]")
+        .forEach(button => {
+
+            button.addEventListener("click", event => {
+                event.preventDefault();
+                navigateTo("index.html");
+            });
+        });
+
+    $$("[data-next]").forEach(button => {
+
+        button.addEventListener("click", () => {
+
+            const destination =
+                button.getAttribute("data-next");
+
+            if (destination) {
+                navigateTo(destination);
+            }
         });
     });
 }
 
 
-/* =========================================================
-   13. ACCESSIBILITY
-========================================================= */
+/* 10 — INTERNAL PAGE LINKS */
 
-function setupAccessibility() {
-    $$("button").forEach(button => {
-        if (!button.hasAttribute("type")) {
-            button.type = "button";
-        }
-    });
+function setupInternalNavigation() {
 
-    if (prefersReducedMotion) {
-        document.documentElement.classList.add("reduce-motion");
-    }
+    $$("a[href]").forEach(anchor => {
 
-    $$("[hidden]").forEach(element => {
-        element.setAttribute("aria-hidden", "true");
+        anchor.addEventListener("click", event => {
+
+            if (
+                event.defaultPrevented ||
+                event.button !== 0 ||
+                event.ctrlKey ||
+                event.metaKey ||
+                event.shiftKey ||
+                event.altKey ||
+                (anchor.target && anchor.target !== "_self") ||
+                anchor.hasAttribute("download")
+            ) {
+                return;
+            }
+
+            const href = anchor.getAttribute("href");
+
+            if (
+                !href ||
+                href.startsWith("#") ||
+                /^(mailto:|tel:|javascript:)/i.test(href)
+            ) {
+                return;
+            }
+
+            let destination;
+
+            try {
+                destination = new URL(href, location.href);
+            } catch {
+                return;
+            }
+
+            if (
+                destination.origin !== location.origin ||
+                !/\.html?$/i.test(destination.pathname) ||
+                destination.href === location.href
+            ) {
+                return;
+            }
+
+            event.preventDefault();
+
+            navigateTo(destination.href);
+        });
     });
 }
 
 
-/* =========================================================
-   14. OPTIONAL MUSIC TOGGLE
-========================================================= */
+/* 11 — MUSIC TOGGLE BUTTON */
 
 function setupMusicToggle() {
-    const buttons = $$(
-        "#musicToggle, .music-toggle, [data-music-toggle]"
-    );
+
+    const buttons = $$("#musicToggle, .music-toggle, [data-music-toggle]");
 
     buttons.forEach(button => {
+
         button.setAttribute("aria-pressed", "false");
 
         button.addEventListener("click", async () => {
-            const audio = getPageMusic();
+
+            const audio = getMusic();
 
             if (!audio) return;
 
             if (audio.paused) {
-                const started = await playMusic();
+
+                const playing = await playMusic();
 
                 button.setAttribute(
                     "aria-pressed",
-                    String(started)
+                    String(playing)
                 );
 
-                button.classList.toggle("playing", started);
+                button.classList.toggle(
+                    "playing",
+                    playing
+                );
+
             } else {
+
                 audio.pause();
 
-                button.setAttribute("aria-pressed", "false");
+                button.setAttribute(
+                    "aria-pressed",
+                    "false"
+                );
+
                 button.classList.remove("playing");
             }
         });
@@ -529,59 +511,74 @@ function setupMusicToggle() {
 }
 
 
-/* =========================================================
-   15. OPTIONAL DATA NAVIGATION
-========================================================= */
+/* 12 — BUTTON DEFAULTS */
 
-function setupDataNavigation() {
-    $$("[data-next]").forEach(button => {
-        button.addEventListener("click", () => {
-            const destination = button.getAttribute("data-next");
+function setupButtonDefaults() {
 
-            if (destination) {
-                transitionTo(destination);
-            }
-        });
+    $$("button").forEach(button => {
+
+        if (!button.hasAttribute("type")) {
+            button.type = "button";
+        }
     });
 }
 
 
-/* =========================================================
-   16. INITIALIZE WEBSITE
-========================================================= */
+/* 13 — ACCESSIBILITY */
+
+function setupAccessibility() {
+
+    if (reducedMotion) {
+        document.documentElement.classList.add(
+            "reduce-motion"
+        );
+    }
+}
+
+
+/* 14 — INITIALIZE WEBSITE */
 
 function initializeWebsite() {
+
     prepareMusic();
 
-    handleLoadingScreen();
+    setupLoader();
 
     setupGiftOpening();
-    setupContinueButton();
 
     setupBirthdaySecret();
-    setupBirthdayNext();
 
-    setupFinalSecret();
+    setupFinalReveal();
 
-    setupReplay();
-    setupInternalLinks();
+    setupPageButtons();
+
+    setupInternalNavigation();
+
+    setupMusicToggle();
+
+    setupButtonDefaults();
 
     setupAccessibility();
-    setupMusicToggle();
-    setupDataNavigation();
 
     console.log(
-        "ALI BIRTHDAY WEBSITE READY —",
+        "ALI BIRTHDAY WEBSITE READY:",
         currentPage
     );
 }
 
+
+/* 15 — START */
+
 if (document.readyState === "loading") {
+
     document.addEventListener(
         "DOMContentLoaded",
         initializeWebsite,
         { once: true }
     );
+
 } else {
+
     initializeWebsite();
+
 }
