@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,37 +5,77 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="theme-color" content="#080612">
-    <meta name="description" content="A little birthday surprise made especially for Ali.">
+    <meta name="theme-color" content="#070817">
+    <meta name="description" content="A special birthday universe created for Ali.">
 
     <title>For Ali | A Little Surprise</title>
 
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Main Stylesheets -->
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="responsive.css">
 </head>
 
-<body>
+<body class="index-page">
 
-    <!-- =====================================================
-         ALI BIRTHDAY
-         PAGE 01 — THE MYSTERY OPENING
-    ====================================================== -->
+    <!-- =========================================
+         01. CINEMATIC BACKGROUND
+    ========================================== -->
 
-    <!-- CINEMATIC LOADING SCREEN -->
+    <div class="page-background" aria-hidden="true"></div>
 
-    <div class="loading-screen" id="loadingScreen">
+    <div class="background-overlay" aria-hidden="true"></div>
 
-        <div class="loading-stars"></div>
+    <div class="cinematic-vignette" aria-hidden="true"></div>
 
-        <div class="loading-content">
+    <div class="stars stars-one" aria-hidden="true"></div>
+    <div class="stars stars-two" aria-hidden="true"></div>
+    <div class="stars stars-three" aria-hidden="true"></div>
 
-            <div class="loading-symbol">✦</div>
+    <div class="floating-particles" aria-hidden="true">
 
-            <p class="loading-text">
+        <span class="particle particle-one"></span>
+        <span class="particle particle-two"></span>
+        <span class="particle particle-three"></span>
+        <span class="particle particle-four"></span>
+        <span class="particle particle-five"></span>
+        <span class="particle particle-six"></span>
+        <span class="particle particle-seven"></span>
+        <span class="particle particle-eight"></span>
+
+    </div>
+
+
+    <!-- =========================================
+         02. LOADING SCREEN
+    ========================================== -->
+
+    <div id="loadingScreen" class="loading-screen">
+
+        <div class="loader-content">
+
+            <div class="loader-symbol">
+                ✦
+            </div>
+
+            <span class="eyebrow">
+                A little surprise for
+            </span>
+
+            <h2 class="loader-title">
+                ALI
+            </h2>
+
+            <p class="loader-description">
                 Preparing something special...
             </p>
 
-            <div class="loading-line">
+            <div class="loader-line">
                 <span></span>
             </div>
 
@@ -45,388 +84,366 @@
     </div>
 
 
-    <!-- MAIN OPENING WORLD -->
+    <!-- =========================================
+         03. PAGE HEADER
+    ========================================== -->
 
-    <main class="opening-world" id="openingWorld">
+    <header class="page-header">
 
-        <!-- DEEP SPACE BACKGROUND -->
+        <div class="header-brand">
 
-        <div class="space-background" aria-hidden="true">
+            <span class="header-star">✦</span>
 
-            <div class="star-field star-field-one"></div>
-            <div class="star-field star-field-two"></div>
-            <div class="star-field star-field-three"></div>
-
-            <div class="nebula nebula-one"></div>
-            <div class="nebula nebula-two"></div>
-
-            <div class="background-vignette"></div>
+            <span class="header-label">
+                A LITTLE UNIVERSE
+            </span>
 
         </div>
 
-
-        <!-- FLOATING PARTICLES -->
-
-        <div class="particle-field" id="particleField" aria-hidden="true">
-
-            <span class="particle particle-01"></span>
-            <span class="particle particle-02"></span>
-            <span class="particle particle-03"></span>
-            <span class="particle particle-04"></span>
-            <span class="particle particle-05"></span>
-            <span class="particle particle-06"></span>
-            <span class="particle particle-07"></span>
-            <span class="particle particle-08"></span>
-            <span class="particle particle-09"></span>
-            <span class="particle particle-10"></span>
-            <span class="particle particle-11"></span>
-            <span class="particle particle-12"></span>
-            <span class="particle particle-13"></span>
-            <span class="particle particle-14"></span>
-            <span class="particle particle-15"></span>
-            <span class="particle particle-16"></span>
-
+        <div class="header-date">
+            MADE FOR ALI · 25 OCTOBER
         </div>
 
-
-        <!-- TOP HEADER -->
-
-        <header class="opening-header">
-
-            <div class="header-mark">
-                <span>✦</span>
-                A LITTLE WORLD
-            </div>
-
-            <div class="header-date">
-                25 · 10
-            </div>
-
-        </header>
+    </header>
 
 
-        <!-- MAIN HERO -->
+    <!-- =========================================
+         04. MAIN OPENING EXPERIENCE
+    ========================================== -->
 
-        <section class="hero-section">
+    <main class="index-main">
 
-            <!-- INTRO TEXT -->
+        <section class="hero opening-hero">
 
-            <div class="hero-intro">
+            <!-- Small Intro -->
+            <div class="hero-top-label">
 
-                <p class="hero-eyebrow">
-                    THIS IS NOT JUST A WEBSITE
-                </p>
+                <span class="eyebrow">
+                    A gift made with love
+                </span>
 
-                <div class="hero-line"></div>
-
-                <p class="hero-subtitle">
-                    Something was made...
-                </p>
+                <div class="hero-label-line"></div>
 
             </div>
 
 
-            <!-- MAIN NAME -->
+            <!-- Main Heading -->
+            <div class="hero-heading">
 
-            <div class="name-stage">
+                <h1 class="hero-title">
 
-                <div class="name-glow"></div>
+                    A little world
 
-                <p class="before-name">
-                    especially
-                </p>
+                    <br>
 
-                <h1 class="ali-name" data-text="ALI">
-                    ALI
+                    <span class="hero-name">
+                        just for you.
+                    </span>
+
                 </h1>
 
-                <p class="after-name">
-                    for you.
+                <p class="hero-subtitle">
+                    For the person who makes ordinary moments
+                    feel a little more magical.
                 </p>
 
             </div>
 
 
-            <!-- 3D GIFT STAGE -->
+            <!-- Recipient Name -->
+            <div class="recipient-name">
+
+                <span class="recipient-line"></span>
+
+                <span class="recipient-text">
+                    DEAR ALI
+                </span>
+
+                <span class="recipient-line"></span>
+
+            </div>
+
+
+            <!-- =================================
+                 05. THREE DIMENSIONAL GIFT BOX
+            ================================== -->
 
             <div class="gift-stage" id="giftStage">
 
-                <div class="ground-light"></div>
+                <!-- Outer Glow -->
+                <div class="gift-glow" aria-hidden="true"></div>
 
-                <!-- ORBIT RINGS -->
-
-                <div class="orbit orbit-one"></div>
-                <div class="orbit orbit-two"></div>
-                <div class="orbit orbit-three"></div>
-
-
-                <!-- GIFT PARTICLES -->
-
-                <div class="gift-particles" aria-hidden="true">
-
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-
-                </div>
+                <!-- Orbit Rings -->
+                <div class="gift-orbit orbit-one" aria-hidden="true"></div>
+                <div class="gift-orbit orbit-two" aria-hidden="true"></div>
+                <div class="gift-orbit orbit-three" aria-hidden="true"></div>
 
 
-                <!-- 3D GIFT BOX -->
-
+                <!-- Gift Box -->
                 <div class="gift-box-3d" id="giftBox">
 
-                    <div class="gift-shadow"></div>
+                    <!-- Front Face -->
+                    <div class="gift-face gift-front">
 
-                    <!-- BOX BODY -->
-
-                    <div class="box-body">
-
-                        <div class="box-face box-front">
-
-                            <div class="box-ribbon-vertical"></div>
-                            <div class="box-highlight"></div>
-
-                        </div>
-
-                        <div class="box-face box-right">
-
-                            <div class="side-glow"></div>
-
-                        </div>
-
-                        <div class="box-face box-left">
-
-                            <div class="side-shadow"></div>
-
-                        </div>
-
-                        <div class="box-face box-top">
-
-                            <div class="top-ribbon"></div>
-
-                        </div>
-
-                        <div class="box-face box-bottom"></div>
-                        <div class="box-face box-back"></div>
+                        <span class="gift-front-symbol">
+                            ✦
+                        </span>
 
                     </div>
 
+                    <!-- Back Face -->
+                    <div class="gift-face gift-back"></div>
 
-                    <!-- GIFT LID -->
+                    <!-- Left Face -->
+                    <div class="gift-face gift-left"></div>
 
+                    <!-- Right Face -->
+                    <div class="gift-face gift-right"></div>
+
+                    <!-- Top Face -->
+                    <div class="gift-face gift-top"></div>
+
+                    <!-- Bottom Face -->
+                    <div class="gift-face gift-bottom"></div>
+
+
+                    <!-- Vertical Ribbon -->
+                    <div class="gift-ribbon vertical"></div>
+
+                    <!-- Horizontal Ribbon -->
+                    <div class="gift-ribbon horizontal"></div>
+
+
+                    <!-- Gift Lid -->
                     <div class="box-lid" id="giftLid">
 
-                        <div class="lid-top">
-                            <div class="lid-ribbon"></div>
-                        </div>
-
-                        <div class="lid-front"></div>
-                        <div class="lid-back"></div>
-                        <div class="lid-left"></div>
-                        <div class="lid-right"></div>
+                        <div class="gift-lid-ribbon"></div>
 
                     </div>
 
 
-                    <!-- GIFT BOW -->
-
+                    <!-- Gift Bow -->
                     <div class="gift-bow">
 
-                        <div class="bow-loop bow-loop-left"></div>
-                        <div class="bow-loop bow-loop-right"></div>
-                        <div class="bow-center"></div>
+                        <span class="bow-center"></span>
 
                     </div>
 
 
-                    <!-- GIFT SEAL -->
-
+                    <!-- Gift Seal -->
                     <div class="gift-seal">
-                        <span>✦</span>
+                        ♡
                     </div>
 
+                </div>
+
+
+                <!-- Floating Decorations -->
+                <div class="gift-decoration decoration-one" aria-hidden="true">
+                    ✧
+                </div>
+
+                <div class="gift-decoration decoration-two" aria-hidden="true">
+                    ✦
+                </div>
+
+                <div class="gift-decoration decoration-three" aria-hidden="true">
+                    ✧
+                </div>
+
+                <div class="gift-decoration decoration-four" aria-hidden="true">
+                    ♡
                 </div>
 
             </div>
 
 
-            <!-- MYSTERY MESSAGE -->
+            <!-- =================================
+                 06. MYSTERY MESSAGE
+            ================================== -->
 
-            <div class="mystery-message" id="mysteryMessage">
+            <div class="mystery-message">
+
+                <span class="mystery-icon">
+                    ♡
+                </span>
 
                 <p>
-                    There is something waiting inside.
+                    A tiny present.
+                    A thousand feelings.
+                    One special person.
                 </p>
-
-                <span>
-                    You just have to open it.
-                </span>
 
             </div>
 
 
-            <!-- OPEN BUTTON -->
+            <!-- =================================
+                 07. OPEN GIFT BUTTON
+            ================================== -->
 
-            <div class="button-area">
+            <div class="opening-action">
 
                 <button
-                    class="open-surprise-button"
                     id="openSurprise"
+                    class="cinematic-button"
                     type="button"
-                    aria-controls="cinematicReveal">
+                >
 
-                    <span class="button-shine"></span>
-
-                    <span class="button-icon">✦</span>
-
-                    <span class="button-label">
-                        OPEN YOUR SURPRISE
+                    <span class="button-text">
+                        Open your surprise
                     </span>
 
-                    <span class="button-arrow">→</span>
+                    <span class="button-icon">
+                        ✦
+                    </span>
 
                 </button>
 
+                <p class="button-hint">
+                    Take your time. This little world is yours.
+                </p>
+
             </div>
 
 
-            <!-- BOTTOM HINT -->
+            <!-- Bottom Decoration -->
+            <div class="hero-bottom-decoration" aria-hidden="true">
 
-            <div class="bottom-hint">
-
-                <span class="hint-line"></span>
-
-                <span>
-                    Take a breath · Then open it
-                </span>
-
-                <span class="hint-line"></span>
+                <span></span>
+                <span></span>
+                <span></span>
 
             </div>
 
         </section>
 
 
-        <!-- CINEMATIC REVEAL -->
+        <!-- =========================================
+             08. CINEMATIC REVEAL
+        ========================================== -->
 
         <section
-            class="cinematic-reveal"
             id="cinematicReveal"
+            class="cinematic-reveal"
+            hidden
             aria-hidden="true"
-            aria-live="polite">
-
-            <!-- REVEAL LIGHT AND RINGS -->
-
-            <div class="reveal-light"></div>
-
-            <div class="reveal-ring reveal-ring-one"></div>
-            <div class="reveal-ring reveal-ring-two"></div>
-
-            <div class="reveal-particles" aria-hidden="true">
-
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-
-            </div>
-
-
-            <!-- REVEAL CONTENT -->
+        >
 
             <div class="reveal-content">
 
-                <p class="reveal-eyebrow">
-                    THE SURPRISE IS OPEN
-                </p>
+                <span class="reveal-symbol">
+                    ✦
+                </span>
+
+                <span class="eyebrow">
+                    THE FIRST CHAPTER
+                </span>
 
                 <h2 class="reveal-title">
-                    HAPPY BIRTHDAY
+                    Happy Birthday,
+                    <span>Ali.</span>
                 </h2>
-
-                <h3 class="reveal-name">
-                    ALI
-                </h3>
 
                 <div class="reveal-divider">
                     <span></span>
-                    ✦
+                    <i>♡</i>
                     <span></span>
                 </div>
 
-                <p class="reveal-message">
-                    But this isn't just a birthday wish...
+                <p class="reveal-description">
+                    This little universe may have arrived later
+                    than planned, but every part of it was made
+                    with care, thought, and love.
                 </p>
 
-                <p class="reveal-message-small">
-                    I made a little world for you.
+                <p class="reveal-small-note">
+                    And this is only the beginning...
                 </p>
 
 
-                <!-- CONTINUE BUTTON -->
-
+                <!-- Continue Button -->
                 <button
-                    class="continue-button"
                     id="continueButton"
-                    type="button">
+                    class="continue-button"
+                    type="button"
+                    disabled
+                >
 
-                    <span>ENTER</span>
-                    <strong>→</strong>
+                    <span>
+                        Enter your birthday world
+                    </span>
+
+                    <span class="continue-arrow">
+                        →
+                    </span>
 
                 </button>
 
             </div>
 
         </section>
-
-
-        <!-- CINEMATIC FLASH -->
-
-        <div
-            class="screen-flash"
-            id="screenFlash"
-            aria-hidden="true">
-        </div>
-
-
-        <!-- CINEMATIC DARKNESS -->
-
-        <div
-            class="screen-darkness"
-            id="screenDarkness"
-            aria-hidden="true">
-        </div>
 
     </main>
 
 
-    <!-- BACKGROUND MUSIC -->
+    <!-- =========================================
+         09. SCREEN EFFECTS
+    ========================================== -->
+
+    <div
+        id="screenFlash"
+        class="screen-flash"
+        aria-hidden="true"
+    ></div>
+
+    <div
+        id="screenDarkness"
+        class="screen-darkness"
+        hidden
+        aria-hidden="true"
+    ></div>
+
+
+    <!-- =========================================
+         10. FOOTER
+    ========================================== -->
+
+    <footer class="index-footer">
+
+        <span class="footer-star">✦</span>
+
+        <p>
+            A little universe, created especially for Ali.
+        </p>
+
+        <span class="footer-year">
+            WITH LOVE
+        </span>
+
+    </footer>
+
+
+    <!-- =========================================
+         11. BACKGROUND MUSIC
+    ========================================== -->
 
     <audio
         id="bgMusic"
         loop
-        preload="auto">
-
+        preload="none"
+    >
         <source
             src="assets/music/birthday-song.mp3"
-            type="audio/mpeg">
-
+            type="audio/mpeg"
+        >
     </audio>
 
 
-    <!-- JAVASCRIPT -->
+    <!-- =========================================
+         12. MASTER JAVASCRIPT
+    ========================================== -->
 
     <script src="script.js"></script>
 
 </body>
-
 </html>
