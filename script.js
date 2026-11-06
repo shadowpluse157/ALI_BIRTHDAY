@@ -2,8 +2,7 @@
 
 /* =========================================================
    ALI BIRTHDAY WEBSITE
-   FILE 10 — MAIN JAVASCRIPT
-   Gift • Music • Reveals • Navigation • Transitions
+   MAIN JAVASCRIPT
 ========================================================= */
 
 /* 01 — HELPERS */
@@ -14,7 +13,7 @@ const $ = (selector, parent = document) =>
 const $$ = (selector, parent = document) =>
     [...parent.querySelectorAll(selector)];
 
-const wait = (ms) =>
+const wait = ms =>
     new Promise(resolve => setTimeout(resolve, ms));
 
 const reducedMotion = window.matchMedia(
@@ -39,12 +38,10 @@ function getMusic() {
 }
 
 function prepareMusic() {
-    const tracks = [
+    [
         $("#bgMusic"),
         $("#birthdayMusic")
-    ].filter(Boolean);
-
-    tracks.forEach(audio => {
+    ].filter(Boolean).forEach(audio => {
         audio.loop = true;
         audio.volume = 0.35;
         audio.preload = "auto";
@@ -69,7 +66,7 @@ async function playMusic() {
         await activeTrack.play();
         return true;
     } catch (error) {
-        console.info("Music will wait for another interaction.");
+        console.info("Music playback unavailable:", error);
         return false;
     }
 }
@@ -128,11 +125,7 @@ function setupLoader() {
     if (!loader) return;
 
     function hideLoader() {
-        loader.classList.add(
-            "loaded",
-            "is-hidden"
-        );
-
+        loader.classList.add("loaded", "is-hidden");
         loader.style.pointerEvents = "none";
 
         setTimeout(() => {
@@ -144,11 +137,9 @@ function setupLoader() {
     if (document.readyState === "complete") {
         hideLoader();
     } else {
-        window.addEventListener(
-            "load",
-            hideLoader,
-            { once: true }
-        );
+        window.addEventListener("load", hideLoader, {
+            once: true
+        });
     }
 }
 
@@ -190,12 +181,16 @@ async function navigateTo(destination) {
 }
 
 
-/* 06 — GIFT OPENING */
+/* 06 — GIFT OPENING — FIXED */
 
 function setupGiftOpening() {
+
     const openButton = $("#openSurprise");
 
-    if (!openButton) return;
+    if (!openButton) {
+        console.error("Open Surprise button not found!");
+        return;
+    }
 
     openButton.addEventListener("click", async () => {
 
@@ -206,67 +201,102 @@ function setupGiftOpening() {
         openButton.dataset.opened = "true";
         openButton.disabled = true;
 
-        await playMusic();
+        // Music starts independently.
+        // Gift animation does not wait for music.
+        playMusic();
 
-        document.body.classList.add("gift-opening");
+        try {
 
-        const giftStage = $(
-            "#giftStage, .gift-stage"
-        );
-
-        const giftBox = $(
-            "#giftBox, .gift-box-3d, .gift-box"
-        );
-
-        const giftLid = $(
-            "#giftLid, .box-lid, .gift-lid"
-        );
-
-        [
-            giftStage,
-            giftBox,
-            giftLid
-        ].filter(Boolean).forEach(element => {
-            element.classList.add(
-                "opening",
-                "is-opening",
-                "opened"
+            const giftStage = $(
+                "#giftStage, .gift-stage"
             );
-        });
 
-        $(".mystery-message")?.classList.add("fade-out");
+            const giftBox = $(
+                "#giftBox, .gift-box-3d, .gift-box"
+            );
 
-        await wait(reducedMotion ? 0 : 1050);
+            const giftLid = $(
+                "#giftLid, .box-lid, .gift-lid"
+            );
 
-        const revealSection = $(
-            "#cinematicReveal, .cinematic-reveal"
-        );
+            // Start the gift animation.
+            document.body.classList.add("gift-opening");
 
-        reveal(revealSection);
+            [
+                giftStage,
+                giftBox,
+                giftLid
+            ].filter(Boolean).forEach(element => {
 
-        document.body.classList.add(
-            "cinematic-revealed"
-        );
+                element.classList.add(
+                    "opening",
+                    "is-opening",
+                    "opened"
+                );
 
-        scrollToElement(revealSection);
+            });
 
-        const flash = $(
-            "#screenFlash, #flashOverlay, .flash-overlay"
-        );
+            const mystery = $(".mystery-message");
 
-        if (flash) {
-            flash.classList.add("active");
+            if (mystery) {
+                mystery.classList.add("fade-out");
+            }
 
-            await wait(reducedMotion ? 0 : 180);
+            // Wait for the gift animation.
+            await wait(reducedMotion ? 0 : 1200);
 
-            flash.classList.remove("active");
+            // Find the next reveal section.
+            const revealSection = $(
+                "#cinematicReveal, .cinematic-reveal"
+            );
+
+            if (!revealSection) {
+                throw new Error(
+                    "Cinematic reveal section not found!"
+                );
+            }
+
+            // Reveal the next section.
+            reveal(revealSection);
+
+            document.body.classList.add(
+                "cinematic-revealed"
+            );
+
+            scrollToElement(revealSection);
+
+            // Flash effect.
+            const flash = $(
+                "#screenFlash, #flashOverlay, .flash-overlay"
+            );
+
+            if (flash) {
+
+                flash.classList.add("active");
+
+                await wait(reducedMotion ? 0 : 180);
+
+                flash.classList.remove("active");
+            }
+
+            // Enable the next button.
+            const continueButton = $("#continueButton");
+
+            if (continueButton) {
+                continueButton.disabled = false;
+            }
+
+            openButton.textContent = "Surprise opened ♡";
+
+        } catch (error) {
+
+            console.error("Gift opening error:", error);
+
+            openButton.disabled = false;
+            openButton.dataset.opened = "false";
+
         }
 
-        const continueButton = $("#continueButton");
-
-        if (continueButton) {
-            continueButton.disabled = false;
-        }
     });
 }
 
@@ -274,6 +304,7 @@ function setupGiftOpening() {
 /* 07 — BIRTHDAY SECRET MESSAGE */
 
 function setupBirthdaySecret() {
+
     const button = $("#birthdaySecret");
     const message = $("#birthdaySecretMessage");
 
@@ -286,18 +317,21 @@ function setupBirthdaySecret() {
 
     button.addEventListener("click", async () => {
 
-        await playMusic();
+        // Music must not block the reveal.
+        playMusic();
 
         const isOpen =
             button.getAttribute("aria-expanded") === "true";
 
         if (isOpen) {
+
             conceal(message);
 
             button.setAttribute("aria-expanded", "false");
             button.classList.remove("active");
 
         } else {
+
             reveal(message);
 
             button.setAttribute("aria-expanded", "true");
@@ -312,17 +346,13 @@ function setupBirthdaySecret() {
 /* 08 — FINAL SECRET MESSAGE */
 
 function setupFinalReveal() {
+
     const button = $("#finalReveal");
     const message = $("#finalSecretMessage");
 
     if (!button || !message) return;
 
-    /*
-       The newer final.html already has its own
-       reveal handler for .final-reveal-card.
-       Avoid attaching a second click handler.
-    */
-
+    // New final.html already has its own reveal handler.
     if (message.classList.contains("final-reveal-card")) {
         return;
     }
@@ -332,20 +362,22 @@ function setupFinalReveal() {
 
     button.setAttribute("aria-expanded", "false");
 
-    button.addEventListener("click", async () => {
+    button.addEventListener("click", () => {
 
-        await playMusic();
+        playMusic();
 
         const isOpen =
             button.getAttribute("aria-expanded") === "true";
 
         if (isOpen) {
+
             conceal(message);
 
             button.setAttribute("aria-expanded", "false");
             button.classList.remove("active");
 
         } else {
+
             reveal(message);
 
             button.setAttribute("aria-expanded", "true");
@@ -393,6 +425,7 @@ function setupPageButtons() {
                 event.preventDefault();
                 navigateTo("index.html");
             });
+
         });
 
     $$("[data-next]").forEach(button => {
@@ -405,7 +438,9 @@ function setupPageButtons() {
             if (destination) {
                 navigateTo(destination);
             }
+
         });
+
     });
 }
 
@@ -460,7 +495,9 @@ function setupInternalNavigation() {
             event.preventDefault();
 
             navigateTo(destination.href);
+
         });
+
     });
 }
 
@@ -469,7 +506,9 @@ function setupInternalNavigation() {
 
 function setupMusicToggle() {
 
-    const buttons = $$("#musicToggle, .music-toggle, [data-music-toggle]");
+    const buttons = $$(
+        "#musicToggle, .music-toggle, [data-music-toggle]"
+    );
 
     buttons.forEach(button => {
 
@@ -499,14 +538,13 @@ function setupMusicToggle() {
 
                 audio.pause();
 
-                button.setAttribute(
-                    "aria-pressed",
-                    "false"
-                );
+                button.setAttribute("aria-pressed", "false");
 
                 button.classList.remove("playing");
             }
+
         });
+
     });
 }
 
@@ -520,6 +558,7 @@ function setupButtonDefaults() {
         if (!button.hasAttribute("type")) {
             button.type = "button";
         }
+
     });
 }
 
